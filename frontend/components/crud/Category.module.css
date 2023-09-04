@@ -1,0 +1,36 @@
+.custom-button {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.form-group-title {
+  margin-bottom: 1rem;
+}
+
+.form-group-img .btn {
+  display: block;
+}
+
+.form-group-img input {
+  display: block;
+  margin-top: 10px; /* Add some spacing between elements */
+}
+
+.ql-editor {
+  min-height: 300px;
+  border: solid 3px #333;
+}
+
+.alert {
+  display: none;
+}
+
+.alert-danger {
+  display: block;
+  color: red;
+}
+
+.alert-success {
+  display: block;
+  color: green;
+}

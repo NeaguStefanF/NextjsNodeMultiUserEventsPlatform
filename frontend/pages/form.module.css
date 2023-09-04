@@ -1,0 +1,17 @@
+.signup-form-container {
+  border: 3px solid #ccc;
+  border-radius: 4px;
+  padding: 60px;
+}
+
+.signin-form-container {
+  border: 3px solid #ccc;
+  border-radius: 4px;
+  padding: 60px;
+}
+
+.forgot-form-container {
+  border: 3px solid #ccc;
+  border-radius: 4px;
+  padding: 30px;
+}
