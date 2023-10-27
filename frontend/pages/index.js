@@ -13,7 +13,7 @@ const Index = () => {
               style={{ fontWeight: '400', color: '#333' }}
               className="display-4 font-weight-bold text-center mt-4"
             >
-              Welcome to the Concursul Web APP! (v.1.0)
+              Welcome to the Concursul Web APP! (v.1.0.1)
             </h1>
             <h2
               style={{ fontWeight: '300', color: '#333' }}

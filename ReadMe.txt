@@ -39,7 +39,7 @@ module.exports = {
 };
 
 5.Run front-end and back-end in separated terminals:
-front:npm start
-back:npm run dev
+back:npm start
+front:npm run dev
 
-Enjoy!
+Nice!
