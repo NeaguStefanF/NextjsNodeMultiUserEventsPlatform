@@ -156,7 +156,15 @@ const SinglePost = ({ posts, query }) => {
 
             <div className="container">
               <section>
-                <div className="col-md-12 lead">{renderHTML(posts.body)}</div>
+                <div className="col-md-12 lead">
+                  {renderHTML(posts.body)}
+                  <style jsx global>{`
+                    .col-md-8 img {
+                      max-width: 100%;
+                      max-height: 550px;
+                    }
+                  `}</style>
+                </div>
               </section>
             </div>
 

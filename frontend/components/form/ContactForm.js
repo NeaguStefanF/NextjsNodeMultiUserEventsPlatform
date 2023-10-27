@@ -91,7 +91,9 @@ const ContactForm = ({ authorEmail }) => {
         </div>
 
         <div className="form-group mb-3">
-          <label className="lead mb-1">Email Address</label>
+          <label className="lead mb-1">
+            Email Address (try: elev4162@gmail.com)
+          </label>
           <input
             type="email"
             onChange={handleChange('email')}

@@ -13,8 +13,15 @@ const Index = () => {
               style={{ fontWeight: '400', color: '#333' }}
               className="display-4 font-weight-bold text-center mt-4"
             >
-              Welcome to the Concursul Web APP!
+              Welcome to the Concursul Web APP! (v.1.0)
             </h1>
+            <h2
+              style={{ fontWeight: '300', color: '#333' }}
+              className="display-5 font-weight-bold text-center mt-4"
+            >
+              BETA VERSION (will be added new style(Tailwind Css) and other
+              missing functionalities)
+            </h2>
             <p style={{ color: '#333' }}>
               Sign in to gain full access to the Concursul APP. This web app
               application exists to connect students, mentors, and schools in

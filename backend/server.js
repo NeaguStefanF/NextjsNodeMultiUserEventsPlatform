@@ -21,7 +21,7 @@ app.use(express.urlencoded({ limit: '50mb' }));
 
 //db mongodb
 mongoose
-  .connect(process.env.DATABASE_LOCAL, {
+  .connect(process.env.DATA_BASE, {
     useNewUrlParser: true,
   })
   .then(() => {

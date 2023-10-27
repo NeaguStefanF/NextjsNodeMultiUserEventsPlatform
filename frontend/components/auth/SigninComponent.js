@@ -77,6 +77,7 @@ const SigninComponent = () => {
             placeholder="Type your password"
           />
         </div>
+        <span>admin-account:concursulsrl@gmail.com password:123test</span>
 
         <div>
           <button className="btn btn-primary">Signin</button>

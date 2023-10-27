@@ -58,10 +58,6 @@ const ComunityList = ({ comunity }) => {
           </div>
         </section>
       </div>
-      {/* <div className="container pb-5">
-
-        {showComments()}
-      </div> */}
     </div>
   );
 };

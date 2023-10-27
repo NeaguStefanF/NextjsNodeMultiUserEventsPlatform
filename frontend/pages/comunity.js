@@ -126,7 +126,7 @@ const ComunityPage = ({
 
 ComunityPage.getInitialProps = ({ query }) => {
   let skip = 0;
-  let limit = 5;
+  let limit = 2;
   return list(skip, limit).then((data) => {
     if (data && data.error) {
       console.log(data.error);
