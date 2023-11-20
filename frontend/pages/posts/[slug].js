@@ -224,7 +224,13 @@ const SinglePost = ({ posts, query }) => {
               <hr />
               <div className="row">{showRelatedPosts()}</div>
             </div>
-            {isAuth() && <div className="container pb-5">{showComments()}</div>}
+            {isAuth() ? (
+              <div className="container pb-5">{showComments()}</div>
+            ) : (
+              <h3 className="container pb-5">
+                Signin to see the comments or ask something.
+              </h3>
+            )}
           </article>
         </main>
       </Layout>
