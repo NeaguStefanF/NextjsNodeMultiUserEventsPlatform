@@ -91,7 +91,7 @@ const Header = () => {
           className={`${styles['navbar-brand']} ${styles['no-decoration']}`}
           href="/"
         >
-          <DynamicNavbarBrand>{APP_NAME}</DynamicNavbarBrand>
+          <DynamicNavbarBrand>CONCURSUL</DynamicNavbarBrand>
         </DynamicLink>
 
         {/* Use DynamicNavbarToggler */}
