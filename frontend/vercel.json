@@ -6,18 +6,16 @@
       "use": "@vercel/node"
     }
   ],
-  "build": {
-    "env": {
-      "CI": "1",
-      "NPM_CONFIG_PRODUCTION": "false"
+  "env": {
+    "CI": "1",
+    "NPM_CONFIG_PRODUCTION": "false"
+  },
+  "functions": {
+    "preBuild": {
+      "command": "npm install"
     },
-    "functions": {
-      "preBuild": {
-        "command": "npm install"
-      },
-      "build": {
-        "command": "npm install --force --legacy-peer-deps && npm i --force react-render-html"
-      }
+    "build": {
+      "command": "npm install --force --legacy-peer-deps && npm i --force react-render-html"
     }
   }
 }
