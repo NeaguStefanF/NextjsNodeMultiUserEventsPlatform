@@ -5,7 +5,12 @@ import { withRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { useState } from 'react';
 import { listAllPostsCategoriesTags } from '../../actions/posts';
-import { API, DOMAIN, APP_NAME, FB_APP_ID } from '../../config';
+import {
+  API,
+  DOMAIN,
+  APP_NAME,
+  FB_APP_ID,
+} from '../../config';
 import Card from '../../components/posts/Card';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -20,22 +25,39 @@ const Posts = ({
 }) => {
   const head = () => (
     <Head>
-      <title>Concursuri si Competitii educationale | {APP_NAME}</title>
+      <title>
+        Concursuri si Competitii educationale | {APP_NAME}
+      </title>
       <meta
         name="description"
         content="Web app realizat in nextjs:frontend nodejs:backend"
       />
-      <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
-      <meta property="og:title" content={`Just a web app | ${APP_NAME}`} />
+      <link
+        rel="canonical"
+        href={`${DOMAIN}${router.pathname}`}
+      />
+      <meta
+        property="og:title"
+        content={`Just a web app | ${APP_NAME}`}
+      />
       <meta
         property="og:title"
         content="Just a web app created in nextjs nodejs mongodb for studying"
       />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
-      <meta property="og:site_name" content={`${APP_NAME}`} />
+      <meta
+        property="og:url"
+        content={`${DOMAIN}${router.pathname}`}
+      />
+      <meta
+        property="og:site_name"
+        content={`${APP_NAME}`}
+      />
 
-      <meta property="og:image" content={`${DOMAIN}/static/images/ok.jpg`} />
+      <meta
+        property="og:image"
+        content={`${DOMAIN}/static/images/ok.jpg`}
+      />
       <meta
         property="og:image:secure_url"
         content={`${DOMAIN}/static/images/ok.jpg`}
@@ -62,22 +84,27 @@ const Posts = ({
 
   const loadMore = () => {
     let toSkip = skip + limit;
-    listAllPostsCategoriesTags(toSkip, limit).then((data) => {
-      if (data && data.error) {
-        console.log(data.error);
-      } else {
-        setLoadedPosts([...loadedPosts, ...data.posts]);
-        setSize(data.size);
-        setSkip(toSkip);
+    listAllPostsCategoriesTags(toSkip, limit).then(
+      (data) => {
+        if (data && data.error) {
+          console.log(data.error);
+        } else {
+          setLoadedPosts([...loadedPosts, ...data.posts]);
+          setSize(data.size);
+          setSkip(toSkip);
+        }
       }
-    });
+    );
   };
 
   const loadMoreButton = () => {
     return (
       size > 0 &&
       size >= limit && (
-        <button onClick={loadMore} className="btn btn-outline-dark btn-lg">
+        <button
+          onClick={loadMore}
+          className="btn btn-outline-dark btn-lg"
+        >
           Load more...
         </button>
       )
@@ -98,7 +125,12 @@ const Posts = ({
     <>
       {head()}
       <Layout>
-        <main style={{ paddingRight: '10px', paddingLeft: '10px' }}>
+        <main
+          style={{
+            paddingRight: '10px',
+            paddingLeft: '10px',
+          }}
+        >
           <div className="container-fluid">
             <header>
               <section>
@@ -118,9 +150,15 @@ const Posts = ({
               </div>
             </header>
           </div>
-          <div className="container-fluid col-md-10">{showAllPosts()}</div>
-          <div className="container-fluid col-md-10">{showLoadedPosts()}</div>
-          <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
+          <div className="container-fluid col-md-10">
+            {showAllPosts()}
+          </div>
+          <div className="container-fluid col-md-10">
+            {showLoadedPosts()}
+          </div>
+          <div className="text-center pt-5 pb-5">
+            {loadMoreButton()}
+          </div>
         </main>
       </Layout>
     </>
@@ -153,24 +191,58 @@ const showAllTags = (tags) => {
   ));
 };
 
-Posts.getInitialProps = () => {
+// Posts.getInitialProps = () => {
+//   let skip = 0;
+//   let limit = 2;
+//   return listAllPostsCategoriesTags(skip, limit).then((data) => {
+//     if (data && data.error) {
+//       console.log(data.error);
+//     } else {
+//       return {
+//         posts: data.posts || [], // Handle if `data.posts` is null or undefined
+//         categories: data.categories || [],
+//         tags: data.tags || [],
+//         totalPosts: data.size || 0, // Provide a default value for `data.size` if needed
+//         postsLimit: limit,
+//         postsSkip: skip,
+//       };
+//     }
+//   });
+// };
+
+export async function getServerSideProps() {
   let skip = 0;
   let limit = 2;
-  return listAllPostsCategoriesTags(skip, limit).then((data) => {
-    if (data && data.error) {
-      console.log(data.error);
-    } else {
-      return {
-        posts: data.posts || [], // Handle if `data.posts` is null or undefined
-        categories: data.categories || [],
-        tags: data.tags || [],
-        totalPosts: data.size || 0, // Provide a default value for `data.size` if needed
+  const data = await listAllPostsCategoriesTags(
+    skip,
+    limit
+  );
+
+  if (data && data.error) {
+    console.log(data.error);
+    return {
+      props: {
+        posts: [],
+        categories: [],
+        tags: [],
+        totalPosts: 0,
         postsLimit: limit,
         postsSkip: skip,
-      };
-    }
-  });
-};
+      },
+    };
+  }
+
+  return {
+    props: {
+      posts: data.posts || [],
+      categories: data.categories || [],
+      tags: data.tags || [],
+      totalPosts: data.size || 0,
+      postsLimit: limit,
+      postsSkip: skip,
+    },
+  };
+}
 
 export default withRouter(Posts);
 

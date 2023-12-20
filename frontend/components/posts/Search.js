@@ -38,7 +38,11 @@ const Search = () => {
   const searchedPosts = (results = []) => {
     return (
       <div className="jumbotron bg-white">
-        {message && <p className="text-muted font-italic">{message}</p>}
+        {message && (
+          <p className="text-muted font-italic">
+            {message}
+          </p>
+        )}
         {results.map((posts, i) => {
           return (
             <div key={i}>

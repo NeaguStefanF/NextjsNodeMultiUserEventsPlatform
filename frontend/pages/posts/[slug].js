@@ -6,9 +6,17 @@ import React from 'react';
 import Layout from '../../components/Layout';
 import SmallCard from '../../components/posts/SmallCard';
 import { useState, useEffect } from 'react';
-import { singlePost, listRelated } from '../../actions/posts';
+import {
+  singlePost,
+  listRelated,
+} from '../../actions/posts';
 import { isAuth } from '../../actions/auth';
-import { API, DOMAIN, APP_NAME, FB_APP_ID } from '../../config';
+import {
+  API,
+  DOMAIN,
+  APP_NAME,
+  FB_APP_ID,
+} from '../../config';
 import DisqusThread from '../../components/DisqusThread';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -36,12 +44,24 @@ const SinglePost = ({ posts, query }) => {
         {posts.title} | {APP_NAME}
       </title>
       <meta name="description" content={posts.mdesc} />
-      <link rel="canonical" href={`${DOMAIN}/posts/${query.slug}`} />
-      <meta property="og:title" content={`${posts.title} | ${APP_NAME}`} />
+      <link
+        rel="canonical"
+        href={`${DOMAIN}/posts/${query.slug}`}
+      />
+      <meta
+        property="og:title"
+        content={`${posts.title} | ${APP_NAME}`}
+      />
       <meta property="og:title" content={posts.mdesc} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`${DOMAIN}/posts/${query.slug}`} />
-      <meta property="og:site_name" content={`${APP_NAME}`} />
+      <meta
+        property="og:url"
+        content={`${DOMAIN}/posts/${query.slug}`}
+      />
+      <meta
+        property="og:site_name"
+        content={`${APP_NAME}`}
+      />
 
       <meta
         property="og:image"
@@ -136,12 +156,15 @@ const SinglePost = ({ posts, query }) => {
                   </h1>
                   <p className="lead mt-3 mark">
                     Written by{' '}
-                    <Link href={`/profile/${posts.postedBy.username}`}>
+                    <Link
+                      href={`/profile/${posts.postedBy.username}`}
+                    >
                       <span className="badge text-bg-primary">
                         {posts.postedBy.username}
                       </span>
                     </Link>{' '}
-                    | Published {moment(posts.updatedAt).fromNow()}
+                    | Published{' '}
+                    {moment(posts.updatedAt).fromNow()}
                   </p>
 
                   <div className="pb-3">
@@ -174,14 +197,17 @@ const SinglePost = ({ posts, query }) => {
                   Register Here
                 </h4>
                 <p className="text-center text-white">
-                  Registration to participate in this competition "{posts.title}
-                  "
+                  Registration to participate in this
+                  competition "{posts.title}"
                 </p>
                 <div className="col-md-4 pt-2 pb-5">
                   {isAuth() && (
                     <Link href="/contact">
                       <span
-                        style={{ padding: '16px', width: '100%' }}
+                        style={{
+                          padding: '16px',
+                          width: '100%',
+                        }}
                         className="btn btn-outline-light"
                         type="submit"
                       >
@@ -193,7 +219,9 @@ const SinglePost = ({ posts, query }) => {
               </div>
             </div>
 
-            <h2 className="text-center pt-5 pb-3 h1 text-dark">OR</h2>
+            <h2 className="text-center pt-5 pb-3 h1 text-dark">
+              OR
+            </h2>
 
             <div className="container col-md-8 bg-info">
               <div className="row justify-content-center">
@@ -202,13 +230,19 @@ const SinglePost = ({ posts, query }) => {
                 </h4>
 
                 <p className="text-center text-white">
-                  Contact the author of this event "{posts.title}" to Register.
+                  Contact the author of this event "
+                  {posts.title}" to Register.
                 </p>
                 <div className="col-md-4 pt-2 pb-5">
                   {isAuth() && (
-                    <Link href={`/profile/${posts.postedBy.username}`}>
+                    <Link
+                      href={`/profile/${posts.postedBy.username}`}
+                    >
                       <span
-                        style={{ padding: '16px', width: '100%' }}
+                        style={{
+                          padding: '16px',
+                          width: '100%',
+                        }}
                         className="btn btn-outline-light"
                       >
                         {posts.postedBy.username}
@@ -220,12 +254,19 @@ const SinglePost = ({ posts, query }) => {
             </div>
 
             <div className="container pb-5">
-              <h4 className="text-center pt-5 pb-5 h2"> Related posts</h4>
+              <h4 className="text-center pt-5 pb-5 h2">
+                {' '}
+                Related posts
+              </h4>
               <hr />
-              <div className="row">{showRelatedPosts()}</div>
+              <div className="row">
+                {showRelatedPosts()}
+              </div>
             </div>
             {isAuth() ? (
-              <div className="container pb-5">{showComments()}</div>
+              <div className="container pb-5">
+                {showComments()}
+              </div>
             ) : (
               <h3 className="container pb-5">
                 Signin to see the comments or ask something.
@@ -238,14 +279,39 @@ const SinglePost = ({ posts, query }) => {
   );
 };
 
-SinglePost.getInitialProps = ({ query }) => {
-  return singlePost(query.slug).then((data) => {
-    if (data && data.error) {
-      console.log(data.error);
-    } else {
-      return { posts: data, query };
-    }
-  });
-};
+// SinglePost.getInitialProps = ({ query }) => {
+//   return singlePost(query.slug).then((data) => {
+//     if (data && data.error) {
+//       console.log(data.error);
+//     } else {
+//       return { posts: data, query };
+//     }
+//   });
+// };
+
+export async function getServerSideProps({ query }) {
+  const data = await singlePost(query.slug);
+
+  if (data && data.error) {
+    console.log(data.error);
+    return {
+      props: {
+        posts: {},
+        query,
+        related: [],
+      },
+    };
+  }
+
+  const relatedData = await listRelated({ posts: data });
+
+  return {
+    props: {
+      posts: data || {},
+      query,
+      related: relatedData || [],
+    },
+  };
+}
 
 export default SinglePost;

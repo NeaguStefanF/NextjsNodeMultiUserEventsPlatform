@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { API } from '../config';
+import { useEffect } from 'react';
 
 export const emailContactForm = async (data) => {
   let emailEndpoint;

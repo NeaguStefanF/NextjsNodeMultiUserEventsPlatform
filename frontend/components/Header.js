@@ -98,45 +98,6 @@ const Header = () => {
         <DynamicNavbarToggler onClick={toggle} />
         <DynamicCollapse isOpen={isOpen} navbar>
           <DynamicNav className="me-auto" navbar>
-            {/* <>
-              <DynamicNavItem>
-                <DynamicLink
-                  className={`${styles['nav-link']} ${styles['no-decoration']}`}
-                  href="/"
-                >
-                  <DynamicNavLink>Home</DynamicNavLink>
-                </DynamicLink>
-              </DynamicNavItem>
-            </> */}
-
-            {/* {isAuth() && (
-              <>
-                <DynamicNavItem>
-                  <DynamicLink
-                    className={`${styles['nav-link']} ${styles['no-decoration']}`}
-                    href="/user/crud/posts"
-                  >
-                    <DynamicNavLink className="btn btn-outline-secondary text-light">
-                      Create an Event
-                    </DynamicNavLink>
-                  </DynamicLink>
-                </DynamicNavItem>
-              </>
-            )} */}
-
-            {/* <>
-              <DynamicNavItem>
-                <DynamicLink
-                  className={`${styles['nav-link']} ${styles['no-decoration']}`}
-                  href="/contact"
-                >
-                  <DynamicNavLink className="btn btn-outline-secondary text-light">
-                    Contact us
-                  </DynamicNavLink>
-                </DynamicLink>
-              </DynamicNavItem>
-            </> */}
-
             <>
               <DynamicNavItem>
                 <DynamicLink

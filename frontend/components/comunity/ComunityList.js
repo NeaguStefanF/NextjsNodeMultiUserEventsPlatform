@@ -27,12 +27,15 @@ const ComunityList = ({ comunity }) => {
           </h1>
           <p className="lead mt-3 mark">
             Posted by{' '}
-            <Link href={`/profile/${comunity.postedBy.username}`}>
+            <Link
+              href={`/profile/${comunity.postedBy.username}`}
+            >
               <span className="badge text-bg-primary">
                 {comunity.postedBy.username}
               </span>
             </Link>{' '}
-            | Published {moment(comunity.updatedAt).fromNow()}
+            | Published{' '}
+            {moment(comunity.updatedAt).fromNow()}
           </p>
         </div>
       </section>

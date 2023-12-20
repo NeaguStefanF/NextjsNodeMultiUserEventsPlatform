@@ -5,7 +5,12 @@ import moment from 'moment';
 import React from 'react';
 import Layout from '../../components/Layout';
 import { singleCategory } from '../../actions/category';
-import { API, DOMAIN, APP_NAME, FB_APP_ID } from '../../config';
+import {
+  API,
+  DOMAIN,
+  APP_NAME,
+  FB_APP_ID,
+} from '../../config';
 import Card from '../../components/posts/Card';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -18,12 +23,24 @@ const Category = ({ category, posts, query }) => {
         name="description"
         content={`Just a title for my type of post ${category.name}`}
       />
-      <link rel="canonical" href={`${DOMAIN}/categories/${query.slug}`} />
-      <meta property="og:title" content={`${category.name} | ${APP_NAME}`} />
+      <link
+        rel="canonical"
+        href={`${DOMAIN}/categories/${query.slug}`}
+      />
+      <meta
+        property="og:title"
+        content={`${category.name} | ${APP_NAME}`}
+      />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content={`${APP_NAME}`} />
+      <meta
+        property="og:site_name"
+        content={`${APP_NAME}`}
+      />
 
-      <meta property="og:image" content={`${DOMAIN}/static/images/ok.jpg`} />
+      <meta
+        property="og:image"
+        content={`${DOMAIN}/static/images/ok.jpg`}
+      />
       <meta
         property="og:image:secure_url"
         content={`${DOMAIN}/static/images/ok.jpg`}
@@ -62,14 +79,37 @@ const Category = ({ category, posts, query }) => {
   );
 };
 
-Category.getInitialProps = ({ query }) => {
-  return singleCategory(query.slug).then((data) => {
-    if (data && data.error) {
-      console.log(data.error);
-    } else {
-      return { category: data.category, posts: data.posts, query };
-    }
-  });
-};
+// Category.getInitialProps = ({ query }) => {
+//   return singleCategory(query.slug).then((data) => {
+//     if (data && data.error) {
+//       console.log(data.error);
+//     } else {
+//       return { category: data.category, posts: data.posts, query };
+//     }
+//   });
+// };
+
+export async function getServerSideProps({ query }) {
+  const data = await singleCategory(query.slug);
+
+  if (data && data.error) {
+    console.log(data.error);
+    return {
+      props: {
+        category: {},
+        posts: [],
+        query,
+      },
+    };
+  }
+
+  return {
+    props: {
+      category: data.category || {},
+      posts: data.posts || [],
+      query,
+    },
+  };
+}
 
 export default Category;

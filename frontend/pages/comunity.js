@@ -7,7 +7,12 @@ import { withRouter } from 'next/router';
 import { useState } from 'react';
 import { isAuth } from '../actions/auth';
 import { list } from '../actions/comunity';
-import { API, DOMAIN, APP_NAME, FB_APP_ID } from '../config';
+import {
+  API,
+  DOMAIN,
+  APP_NAME,
+  FB_APP_ID,
+} from '../config';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const ComunityPage = ({
@@ -24,12 +29,24 @@ const ComunityPage = ({
         {comunity.title} | {APP_NAME}
       </title>
       <meta name="description" content={comunity.mdesc} />
-      <link rel="canonical" href={`${DOMAIN}/comunity/${query.slug}`} />
-      <meta property="og:title" content={`${comunity.title} | ${APP_NAME}`} />
+      <link
+        rel="canonical"
+        href={`${DOMAIN}/comunity/${query.slug}`}
+      />
+      <meta
+        property="og:title"
+        content={`${comunity.title} | ${APP_NAME}`}
+      />
       <meta property="og:title" content={comunity.mdesc} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`${DOMAIN}/comunity/${query.slug}`} />
-      <meta property="og:site_name" content={`${APP_NAME}`} />
+      <meta
+        property="og:url"
+        content={`${DOMAIN}/comunity/${query.slug}`}
+      />
+      <meta
+        property="og:site_name"
+        content={`${APP_NAME}`}
+      />
 
       <meta
         property="og:image"
@@ -75,7 +92,10 @@ const ComunityPage = ({
     return (
       size > 0 &&
       size >= limit && (
-        <button onClick={loadMore} className="btn btn-outline-dark btn-lg">
+        <button
+          onClick={loadMore}
+          className="btn btn-outline-dark btn-lg"
+        >
           Load more...
         </button>
       )
@@ -103,7 +123,9 @@ const ComunityPage = ({
           >
             Feedback Page Content
           </h2>
-          <p className="text-center mb-4">(*photos winners feedback)</p>
+          <p className="text-center mb-4">
+            (*photos winners feedback)
+          </p>
           <div className="row justify-content-center">
             <div className="col-md-8">
               <Comunity />
@@ -112,11 +134,17 @@ const ComunityPage = ({
 
           <div className="row justify-content-center">
             <div className="col-md-8">
-              <p className="text-center mt-5">(Content Comunity)</p>
+              <p className="text-center mt-5">
+                (Content Comunity)
+              </p>
             </div>
             <div className="col-md-8">{showAllPosts()}</div>
-            <div className="col-md-8 ">{showLoadedPosts()}</div>
-            <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
+            <div className="col-md-8 ">
+              {showLoadedPosts()}
+            </div>
+            <div className="text-center pt-5 pb-5">
+              {loadMoreButton()}
+            </div>
           </div>
         </div>
       </Layout>
@@ -124,22 +152,39 @@ const ComunityPage = ({
   );
 };
 
-ComunityPage.getInitialProps = ({ query }) => {
+// ComunityPage.getInitialProps = ({ query }) => {
+//   let skip = 0;
+//   let limit = 2;
+//   return list(skip, limit).then((data) => {
+//     if (data && data.error) {
+//       console.log(data.error);
+//     } else {
+//       return {
+//         comunity: data.comunity || [],
+//         totalPosts: data.size || 0,
+//         postsLimit: limit,
+//         postsSkip: skip,
+//         query,
+//       };
+//     }
+//   });
+// };
+
+export async function getServerSideProps({ query }) {
   let skip = 0;
   let limit = 2;
-  return list(skip, limit).then((data) => {
-    if (data && data.error) {
-      console.log(data.error);
-    } else {
-      return {
-        comunity: data.comunity || [], // Handle if `data.comunity` is null or undefined
-        totalPosts: data.size || 0, // Provide a default value for `data.size` if needed
-        postsLimit: limit,
-        postsSkip: skip,
-        query,
-      };
-    }
-  });
-};
+  const data = await list(skip, limit);
+
+  if (data && data.error) {
+    console.log(data.error);
+  }
+
+  return {
+    props: {
+      comunity: data.comunity || [],
+      query,
+    },
+  };
+}
 
 export default withRouter(ComunityPage);

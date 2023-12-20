@@ -119,9 +119,14 @@ export const removeLocalStorage = (key) => {
 };
 
 export const authenticate = (data, next) => {
-  setCookie('token', data.token);
-  setLocalStorage('user', data.user);
-  next();
+  if (data && data.token) {
+    setCookie('token', data.token);
+    setLocalStorage('user', data.user);
+    next();
+  } else {
+    // Handle the case where data or data.token is undefined
+    console.error('Invalid data or token');
+  }
 };
 
 export const isAuth = () => {

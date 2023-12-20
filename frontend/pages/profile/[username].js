@@ -7,7 +7,12 @@ import Layout from '../../components/Layout';
 import { isAuth } from '../../actions/auth';
 import { userPublicProfile } from '../../actions/user';
 import { listcomunityposts } from '../../actions/comunity';
-import { API, DOMAIN, APP_NAME, FB_APP_ID } from '../../config';
+import {
+  API,
+  DOMAIN,
+  APP_NAME,
+  FB_APP_ID,
+} from '../../config';
 import ContactForm from '../../components/form/ContactForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -17,15 +22,36 @@ const UserProfile = ({ auth, posts, query, username }) => {
       <title>
         {auth.username} | {APP_NAME}
       </title>
-      <meta name="description" content={`Posts by ${auth.username}`} />
-      <link rel="canonical" href={`${DOMAIN}/profile/${query.username}`} />
-      <meta property="og:title" content={`${auth.username} | ${APP_NAME}`} />
-      <meta property="og:description" content={`Posts by ${auth.username}`} />
+      <meta
+        name="description"
+        content={`Posts by ${auth.username}`}
+      />
+      <link
+        rel="canonical"
+        href={`${DOMAIN}/profile/${query.username}`}
+      />
+      <meta
+        property="og:title"
+        content={`${auth.username} | ${APP_NAME}`}
+      />
+      <meta
+        property="og:description"
+        content={`Posts by ${auth.username}`}
+      />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`${DOMAIN}/profile/${query.username}`} />
-      <meta property="og:site_name" content={`${APP_NAME}`} />
+      <meta
+        property="og:url"
+        content={`${DOMAIN}/profile/${query.username}`}
+      />
+      <meta
+        property="og:site_name"
+        content={`${APP_NAME}`}
+      />
 
-      <meta property="og:image" content={`${DOMAIN}/static/images/ok.jpg`} />
+      <meta
+        property="og:image"
+        content={`${DOMAIN}/static/images/ok.jpg`}
+      />
       <meta
         property="og:image:secure_url"
         content={`${DOMAIN}/static/images/ok.jpg`}
@@ -55,7 +81,9 @@ const UserProfile = ({ auth, posts, query, username }) => {
       return (
         <div className="mt-4 mb-4" key={i}>
           <Link href={`/posts/${posts.slug}`}>
-            <span className="btn btn-primary">{posts.title}</span>
+            <span className="btn btn-primary">
+              {posts.title}
+            </span>
           </Link>
         </div>
       );
@@ -73,7 +101,9 @@ const UserProfile = ({ auth, posts, query, username }) => {
       return (
         <div key={i} className="mt-4 mb-4">
           <Link href={`/comunity`}>
-            <span className="btn btn-outline-primary">{comunity.title}</span>
+            <span className="btn btn-outline-primary">
+              {comunity.title}
+            </span>
           </Link>
           <h3></h3>
         </div>
@@ -95,7 +125,10 @@ const UserProfile = ({ auth, posts, query, username }) => {
                       <img
                         src={`${API}/user/photo/${auth.username}`}
                         className="img img-fluid rounded-pill rounded mb-3"
-                        style={{ maxHeight: '100px', maxWidth: '100px' }}
+                        style={{
+                          maxHeight: '100px',
+                          maxWidth: '100px',
+                        }}
                         alt="user profile photo"
                       />
                     </div>
@@ -150,14 +183,37 @@ const UserProfile = ({ auth, posts, query, username }) => {
   );
 };
 
-UserProfile.getInitialProps = ({ query }) => {
-  return userPublicProfile(query.username).then((data) => {
-    if (data && data.error) {
-      console.log(data.error);
-    } else {
-      return { auth: data.auth, posts: data.posts, query };
-    }
-  });
-};
+// UserProfile.getInitialProps = ({ query }) => {
+//   return userPublicProfile(query.username).then((data) => {
+//     if (data && data.error) {
+//       console.log(data.error);
+//     } else {
+//       return { auth: data.auth, posts: data.posts, query };
+//     }
+//   });
+// };
+
+export async function getServerSideProps({ query }) {
+  const data = await userPublicProfile(query.username);
+
+  if (data && data.error) {
+    console.log(data.error);
+    return {
+      props: {
+        auth: {},
+        posts: [],
+        query,
+      },
+    };
+  }
+
+  return {
+    props: {
+      auth: data.auth || {},
+      posts: data.posts || [],
+      query,
+    },
+  };
+}
 
 export default UserProfile;
