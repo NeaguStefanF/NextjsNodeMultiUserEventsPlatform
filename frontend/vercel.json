@@ -6,16 +6,18 @@
       "use": "@vercel/node"
     }
   ],
-  "env": {
-    "CI": "1",
-    "NPM_CONFIG_PRODUCTION": "false"
-  },
-  "functions": {
-    "preBuild": {
-      "command": "npm install"
-    },
-    "build": {
-      "command": "npm install --force --legacy-peer-deps && npm i --force react-render-html"
-    }
+  "routes": [],
+  "install": {
+    "include": ["^package\\.json$"],
+    "npmClientArgs": [
+      "install",
+      "--force",
+      "--legacy-peer-deps",
+      "&&",
+      "npm",
+      "install",
+      "--force",
+      "react-render-html"
+    ]
   }
 }
