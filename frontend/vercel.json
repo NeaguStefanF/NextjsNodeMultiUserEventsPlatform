@@ -5,7 +5,13 @@
       "use": "@vercel/node"
     }
   ],
-  "commands": {
-    "build": "npm install && npm i --force react-render-html && npm install --force --legacy-peer-deps"
+  "build": {
+    "env": {
+      "CI": "1",
+      "NPM_CONFIG_PRODUCTION": "false"
+    },
+    "commands": {
+      "build": "npm install && npm i --force react-render-html && npm install --force --legacy-peer-deps"
+    }
   }
 }
