@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "package.json",
@@ -10,8 +11,13 @@
       "CI": "1",
       "NPM_CONFIG_PRODUCTION": "false"
     },
-    "commands": {
-      "build": "npm install && npm i --force react-render-html && npm install --force --legacy-peer-deps"
+    "functions": {
+      "preBuild": {
+        "command": "npm install"
+      },
+      "build": {
+        "command": "npm install --force --legacy-peer-deps && npm i --force react-render-html"
+      }
     }
   }
 }
